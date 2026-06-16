@@ -1,0 +1,138 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="theme.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+        }
+
+        .widgets {
+            width: 100%;
+        }
+
+        .sr-widget {
+            border: rgba(0, 0, 0, 0.12) solid 1px;
+            margin-bottom: 24px;
+        }
+
+        .sr-widget-title {
+            font-weight: bold;
+            padding-bottom: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="widgets">
+        <div>
+            <div class="sr-widget sr-widget-1"></div>
+        </div>
+
+    </div>
+    <script>
+        function getQueryParam(name) {
+            const params = new URLSearchParams(window.location.search);
+            return params.get(name) || '';
+        }
+        window.addEventListener('DOMContentLoaded', function () {
+            const matchIdParam = getQueryParam('matchid');
+            const passParam = getQueryParam('pass');
+            const matchId = parseInt(matchIdParam, 10);
+            const infoPanel = document.getElementById('info-panel');
+            if (infoPanel) {
+                infoPanel.textContent = `matchid: ${matchIdParam || 'none'} | pass: ${passParam || 'none'}`;
+            }
+            (function (a, b, c, d, e, f, g, h, i) {
+                a[e] || (i = a[e] = function () { (a[e].q = a[e].q || []).push(arguments) }, i.l = 1 * new Date, i.o = f,
+                    g = b.createElement(c), h = b.getElementsByTagName(c)[0], g.async = 1, g.src = d, g.setAttribute("n", e), h.parentNode.insertBefore(g, h)
+                )
+            })(window, document, "script", "https://widgets.sir.sportradar.com/8ee45b574e2781d581b0b0a133803906/widgetloader", "SIR", {
+                theme: false,
+                language: "en"
+            });
+            SIR("addWidget", ".sr-widget-1", "match.lmtPlus", {
+                layout: "double",
+                scoreboard: "extended",
+                scoreboardLargeJerseys: true,
+                momentum: "bars",
+                collapseTo: "scoreboard",
+                matchId: matchId,
+                pass: passParam
+            });
+            function getContentHeight() {
+                const widget = document.querySelector('.sr-widget-1') || document.querySelector('.widgets');
+                if (widget) {
+                    const widgetRect = widget.getBoundingClientRect();
+                    return Math.ceil(
+                        Math.max(
+                            widgetRect.height,
+                            widget.clientHeight,
+                            widget.offsetHeight,
+                            widget.scrollHeight,
+                            100
+                        )
+                    );
+                }
+                const body = document.body;
+                const doc = document.documentElement;
+                return Math.ceil(
+                    Math.max(
+                        body.scrollHeight,
+                        body.offsetHeight,
+                        body.clientHeight,
+                        doc.scrollHeight,
+                        doc.offsetHeight,
+                        doc.clientHeight,
+                        doc.getBoundingClientRect().height,
+                        100
+                    )
+                );
+            }
+
+            function notifyParentHeight() {
+                const height = getContentHeight();
+                if (window.parent && window.parent !== window) {
+                    window.parent.postMessage({ type: 'scoreboard_height', height: height }, '*');
+                }
+            }
+            notifyParentHeight();
+            setTimeout(notifyParentHeight, 500);
+            setTimeout(notifyParentHeight, 1200);
+            setTimeout(notifyParentHeight, 2000);
+
+            if (window.ResizeObserver) {
+                const resizeObserver = new ResizeObserver(() => {
+                    notifyParentHeight();
+                });
+                resizeObserver.observe(document.documentElement);
+                resizeObserver.observe(document.body);
+                const widget = document.querySelector('.widgets') || document.querySelector('.sr-widget-1');
+                if (widget) {
+                    resizeObserver.observe(widget);
+                }
+            }
+
+            if (window.MutationObserver) {
+                const mutationObserver = new MutationObserver(() => {
+                    notifyParentHeight();
+                });
+                const observerConfig = { attributes: true, childList: true, subtree: true, characterData: true };
+                mutationObserver.observe(document.body, observerConfig);
+                mutationObserver.observe(document.documentElement, observerConfig);
+                const widget = document.querySelector('.widgets') || document.querySelector('.sr-widget-1');
+                if (widget) {
+                    mutationObserver.observe(widget, observerConfig);
+                }
+            }
+
+            setInterval(notifyParentHeight, 300);
+        });
+    </script>
+</body>
+
+</html>

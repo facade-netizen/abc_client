@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Opening...</title>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: sans-serif;
+      background: #f8f9fc;
+      color: #333;
+    }
+    #message {
+      text-align: center;
+      max-width: 320px;
+    }
+  </style>
+</head>
+<body>
+  <div id="message">Opening, please wait...</div>
+  <script>
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      const token = params.get('token');
+      const message = document.getElementById('message');
+      if (!token) {
+        message.textContent = 'Invalid redirect token.';
+        return;
+      }
+      const storageKey = 'flutter_open_url_' + token;
+      function checkUrl() {
+        const targetUrl = window.localStorage.getItem(storageKey);
+        if (targetUrl) {
+          window.localStorage.removeItem(storageKey);
+          window.location.href = targetUrl;
+        } else {
+          setTimeout(checkUrl, 250);
+        }
+      }
+      checkUrl();
+    })();
+  </script>
+</body>
+</html>

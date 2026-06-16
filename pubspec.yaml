@@ -1,0 +1,68 @@
+name: abc_client
+description: "Client App"
+publish_to: 'none'
+version: 0.0.1+23
+
+environment:
+  sdk: ^3.10.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  dio: 
+  get: 
+  web:
+  intl: 
+  hive:
+  http:
+  path:
+  chopper:
+  marquee: 
+  provider:
+  protobuf:
+  go_router:
+  flutter_svg:
+  flutter_html: 
+  flutter_bloc:
+  google_fonts: 
+  url_launcher:
+  path_provider:
+  universal_html:
+  flutter_chat_ui:
+  signalr_netcore:
+  dropdown_button2:
+  flutter_chat_core: 
+  flutter_chat_types:
+  animated_snack_bar:
+  cached_network_image:
+  syncfusion_flutter_xlsio:
+  flutter_staggered_grid_view:
+
+dev_dependencies:
+  analyzer:
+  build_runner:
+  flutter_lints:
+  hive_generator:
+  chopper_generator:
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/animation/
+    - assets/background/
+    - assets/images/svg/
+    - assets/images/pngs/
+    - assets/images/newSvg/
+    - assets/images/newPngs/
+    - assets/htmlTemplates/
+    
+
+#flutter build web --pwa-strategy=none  
+#protoc --dart_out=. manager_broadcast_data.proto
+#dart run build_runner build --delete-conflicting-outputs
+#or run these two commands to regenerate codegen files or read run_regenerate_codegen.md at project root
+#chmod +x tool/regenerate_codegen.py
+#./tool/regenerate_codegen.py
